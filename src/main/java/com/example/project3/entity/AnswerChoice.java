@@ -8,25 +8,17 @@ import lombok.Data;
 @Table(name = "answer_choices")
 @Data
 public class AnswerChoice {
-    @EmbeddedId
-    private AnswerChoiceId id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @ManyToOne
-    @MapsId("answerId")
-    @JoinColumn(name = "answer_id")
+    @JoinColumn(name = "answer_id", nullable = false)
     @JsonBackReference
     private Answer answer;
 
     @ManyToOne
-    @MapsId("choiceId")
-    @JoinColumn(name = "choice_id")
+    @JoinColumn(name = "choice_id", nullable = false)
     private Choice choice;
-    public AnswerChoice() {}
-
-    public AnswerChoice(Answer answer, Choice choice) {
-        this.answer = answer;
-        this.choice = choice;
-        this.id = new AnswerChoiceId(answer.getId(), choice.getId());
-    }
-
 }
